@@ -44,7 +44,8 @@ class Index extends Component
         $image = "data:image/{$extension[1]};base64,{$image}";
 
         $this->imagenComprobante = $image;
-        $this->showComprobante = true;
+        $this->emit('mostrar:comprobante:matricula');
+       // $this->showComprobante = true;
     }
 
     public function showDialogConfirmMatricula($id, $codigo)
@@ -125,7 +126,7 @@ class Index extends Component
 
     public function closeComprobante()
     {
-        $this->reset(['showComprobante', 'imagenComprobante']);
+        $this->reset(['imagenComprobante']);
     }
 
     public function render()

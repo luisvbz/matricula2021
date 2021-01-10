@@ -28,12 +28,20 @@
                         @if($step <= 2) 2 @else <i class="fas fa-check-double"></i> @endif
                     </span>
                     <div class="steps-content">
-                        <p class="is-size-5">Registrar el Pago</p>
+                        <p class="is-size-5">Concepto del pago</p>
                     </div>
                 </li>
                 <li class="steps-segment @if($step == 3) is-active @endif">
                     <span class="steps-marker">
                         @if($step <= 3) 3 @else <i class="fas fa-check-double"></i> @endif
+                    </span>
+                    <div class="steps-content">
+                        <p class="is-size-5">Registrar el Pago</p>
+                    </div>
+                </li>
+                <li class="steps-segment @if($step == 4) is-active @endif">
+                    <span class="steps-marker">
+                        @if($step <= 4) 4 @else <i class="fas fa-check-double"></i> @endif
                     </span>
                     <div class="steps-content">
                         <p class="is-size-5">Finalizado</p>
@@ -73,7 +81,64 @@
                 </div>
                 </form>
             @elseif($step == 2)
-                <form wire:submit.prevent="registrarPago">
+                <form wire:submit.prevent="seleccionarConcepto">
+                    <div class="field">
+                        <div class="matricula-encontrada">
+                            <div class="columns is-centered">
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Alumno(a)</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ trim($matricula->alumno->apellido_paterno.' '.$matricula->alumno->apellido_materno.' '.$matricula->alumno->nombres) }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Grado</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->grado | grado }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Nivel</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->nivel == 'P' ? 'PRIMARIA' : 'SECUNDARIA' }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Año Lectivo</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->anio }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="field">
+                        <div class="columns is-centered">
+                            <div class="column is-4-desktop">
+                                <label class="label">Seleccione el concepto:</label>
+                                <div class="select is-fullwidth @error('concepto') is-danger @enderror">
+                                    <select wire:model.debounce.500ms="concepto">
+                                        <option value="M">Matrícula</option>
+                                        <option value="P">Pensión</option>
+                                    </select>
+                                    @error('concepto')
+                                    <p class="has-text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="columns">
+                            <div class="column has-text-right">
+                                <button class="button is-primary">Continuar <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            @elseif($step == 3 && $concepto == 'M')
+                <form wire:submit.prevent="registrarPagoMatricula">
                     <div class="field">
                         <div class="matricula-encontrada">
                             <div class="columns is-centered">
@@ -107,17 +172,6 @@
                     <hr>
                     <div class="field">
                         <div class="columns">
-                            <div class="column">
-                                <label class="label">Por concepto de:</label>
-                                <div class="select is-fullwidth @error('pago.concepto') is-danger @enderror">
-                                    <select wire:model.debounce.500ms="pago.concepto">
-                                        <option value="M">Matrícula</option>
-                                    </select>
-                                    @error('pago.concepto')
-                                    <p class="has-text-danger">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
                             <div class="column">
                                 <label class="label">Tipo de operación:</label>
                                 <div class="select is-fullwidth @error('pago.tipo_pago') is-danger @enderror">
@@ -203,8 +257,111 @@
                         </div>
                     </div>
                 </form>
-            @elseif($step == 3)
-                paso 3
+            @elseif($step == 3 && $concepto == 'P')
+                <form wire:submit.prevent="registrarPagoPension">
+                    <div class="field">
+                        <div class="matricula-encontrada">
+                            <div class="columns is-centered">
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Alumno(a)</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ trim($matricula->alumno->apellido_paterno.' '.$matricula->alumno->apellido_materno.' '.$matricula->alumno->nombres) }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Grado</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->grado | grado }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Nivel</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->nivel == 'P' ? 'PRIMARIA' : 'SECUNDARIA' }}
+                                    </div>
+                                </div>
+                                <div class="column">
+                                    <div class="has-text-centered"><strong>Año Lectivo</strong></div>
+                                    <div class="has-text-centered">
+                                        {{ $matricula->anio }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="field">
+                        <div class="columns">
+                            <div class="column">
+                                <label class="label">Pensión del mes de:</label>
+                                <div class="select is-fullwidth @error('pagopension.mes') is-danger @enderror">
+                                    <select wire:model.debounce.500ms="pagopension.mes">
+                                        <option value="" disabled>Seleccione</option>
+                                        @foreach($pensiones as $pension)
+                                            <option value="{{ $pension['value'] }}" @if($pension['disabled']) disabled @endif>{{ $pension['mes'] }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('pagopension.mes')
+                                     <p class="has-text-danger">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="column">
+                                <label class="label">Monto a pagar:</label>
+                                <div class="control">
+                                    <input type="text" class="input" value="S./ {{ $pagopension['monto'] }}" disabled />
+                                </div>
+                            </div>
+                            <div class="column is-2-desktop">
+                                <label class="label">Fecha de Pago</label>
+                                <div class="control">
+                                    <input type="text" wire:model.lazy="pagopension.fecha_pago" class="input  @error('pagopension.fecha_pago') is-danger @enderror" id="fecha-pago-pension"/>
+                                </div>
+                                @error('pagopension.fecha_pago')
+                                <p class="has-text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="column">
+                                <label class="label">Adjuntar comprobante (jpg,png)</label>
+                                <div class="file has-name">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" name="comprobante" wire:model.debounce.500ms="pagopension.comprobante">
+                                        <span class="file-cta">
+                              <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                              </span>
+                                  <span class="file-label">
+                                    Seleccionar
+                                  </span>
+                                </span>
+                                        <span class="file-name">
+                                    @if($pagopension['comprobante'] !== null)
+                                                {{ $pagopension['comprobante']->getClientOriginalName() }}
+                                            @endif
+                                </span>
+                                    </label>
+                                </div>
+                                <p wire:loading wire:target="pagopension.comprobante">Cargando... <i class="fas fa-spinner fa-spin"></i></p>
+                                @error('pagopension.comprobante')
+                                <p class="has-text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="field">
+                        <div class="columns">
+                            <div class="column has-text-left">
+                                <a type="button" wire:click="$emit('goToStep', 2)" class="button is-primary"><i class="fas fa-arrow-alt-circle-left" style="margin-right: 5px;"></i> Anterior</a>
+                            </div>
+                            <div class="column has-text-right">
+                                <button class="button is-primary">Registrar pago <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            @elseif($step == 4)
+                paso 4
             @endif
         </div>
     </div>
@@ -212,12 +369,7 @@
 @push('js')
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        Livewire.on('paso:dos:pago', () => {
-            new Cleave('#monto-pago', {
-                numeral: true,
-                decimal: true,
-                numeralThousandsGroupStyle: 'thousand'
-            });
+        Livewire.on('paso:tres:pago', () => {
 
             new Pikaday({
                 field: document.getElementById('fecha-pago'),
@@ -242,6 +394,37 @@
                     const year = date.getFullYear();
                     return `${day}/${month}/${year}`;
                 },
+            });
+
+            new Pikaday({
+                field: document.getElementById('fecha-pago-pension'),
+                format: 'DD/MM/YYYY',
+                yearRange: [1990,2015],
+                i18n: {
+                    previousMonth : 'Mes Anterior',
+                    nextMonth     : 'Siguiente Mes',
+                    months        : ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+                    weekdays      : ['Domingo','Lunes','Martes','Miercoles','Jueves','Viernes','Sabado'],
+                    weekdaysShort : ['Dom','Lun','Mar','Mi','Ju','Vi','Sa']
+                },
+                toString(date, format) {
+                    // you should do formatting based on the passed format,
+                    // but we will just return 'D/M/YYYY' for simplicity
+                    var day = date.getDate();
+                    day = day < 10 ?`0${day}` : day;
+
+                    var month = date.getMonth() + 1;
+                    month = month < 10 ?`0${month}` : month;
+
+                    const year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                },
+            });
+
+            new Cleave('#monto-pago', {
+                numeral: true,
+                decimal: true,
+                numeralThousandsGroupStyle: 'thousand'
             });
         });
     });

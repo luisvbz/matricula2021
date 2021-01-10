@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard;
 
+use App\Models\Historial;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -36,6 +37,7 @@ class Login extends Component
         $credentials = ['username' => $this->username, 'password' => $this->password];
 
         if (Auth::attempt($credentials)) {
+            Historial::create(['user_id' => auth()->user()->id, 'accion' => 'Iniciar sesión']);
             return redirect()->route('dashboard.principal');
         }else {
             $this->addError('credentials', 'Error de usuario y o contraseña');

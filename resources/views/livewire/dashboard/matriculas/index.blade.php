@@ -113,13 +113,13 @@
         </table>
         {{ $matriculas->links() }}
     </div>
-    <div class="loading-matricula"  wire:loading wire:target="descargarFicha">
-        <div class="loading-matricula-body">
-            <div class="spinner">
+    <div class="loading-matricula"  wire:loading wire:target="descargarFicha" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
                 <img src="{{ asset('images/loader.svg') }}"/>
             </div>
             <div class="mensaje">
-                Generando ficha.....
+                Procesando.....
             </div>
         </div>
     </div>

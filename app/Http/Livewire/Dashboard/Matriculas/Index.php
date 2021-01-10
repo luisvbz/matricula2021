@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Dashboard\Matriculas;
 
+use App\Models\Historial;
 use App\Models\Matricula;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -73,6 +74,9 @@ class Index extends Component
 
             Matricula::find($params[0])->update(['estado' => 1]);
 
+            $mat = Matricula::find($params[0]);
+            Historial::create(['user_id' => auth()->user()->id, 'accion' => 'Confirmar matrícula: '.$mat->codigo]);
+
             $this->emit('swal:modal', [
                 'type'  => 'success',
                 'title' => 'Exito!!',
@@ -97,6 +101,9 @@ class Index extends Component
 
             Matricula::find($params[0])->update(['estado' => 2]);
 
+            $mat = Matricula::find($params[0]);
+            Historial::create(['user_id' => auth()->user()->id, 'accion' => 'Anular matrícula: '.$mat->codigo]);
+
             $this->emit('swal:modal', [
                 'type'  => 'success',
                 'title' => 'Exito!!',
@@ -120,6 +127,7 @@ class Index extends Component
 
         $matricula = Matricula::find($id);
         $pdf = PDF::loadView('pdfs.ficha', ['matricula' => $matricula]);
+        Historial::create(['user_id' => auth()->user()->id, 'accion' => 'Descargar ficha de Matrícula: '.$matricula->codigo]);
         //dd($pdf);
         return response()->streamDownload(function () use($pdf){
             echo $pdf->stream();

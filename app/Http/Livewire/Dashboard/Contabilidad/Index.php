@@ -8,6 +8,8 @@ class Index extends Component
 {
     public function render()
     {
-        return view('livewire.dashboard.contabilidad.index');
+        return view('livewire.dashboard.contabilidad.index')
+            ->extends('layouts.panel')
+            ->section('content');
     }
 }

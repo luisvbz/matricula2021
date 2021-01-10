@@ -1,3 +1,5 @@
+<div x-data="pagosMatriculas()" x-init="suscribe()">
+<livewire:commons.mod-contable/>
 <div class="content-dashboard">
     <div class="loading-matricula"  wire:loading wire:target="verComprobante" style="display: none;">
         <div class="loading-matricula-body" style="margin: 100px auto;">
@@ -10,7 +12,7 @@
         </div>
     </div>
     <div class="content-dashboard-header">
-        <div><i class="fas fa-money-bill"></i> Pagos recibidos</div>
+        <div><i class="fas fa-money-bill"></i> Pagos recibidos por matricula</div>
     </div>
     <div class="content-dashboard-search-bar">
         <div class="columns">
@@ -107,15 +109,30 @@
         </table>
         {{ $pagos->links() }}
     </div>
-    @if($showComprobante)
-    <div class="modal is-active">
+    <div class="modal is-active" x-show="show">
         <div class="modal-background"></div>
         <div class="modal-content">
             <p class="image">
                 <img src="{{ $imagenComprobante }}" alt="">
             </p>
         </div>
-        <button  wire:click="closeComprobante" class="modal-close is-large" aria-label="close"></button>
+        <button  @click="show = false" class="modal-close is-large" aria-label="close"></button>
     </div>
-    @endif
+   </div>
 </div>
+@push('scripts')
+    <script>
+        function pagosMatriculas() {
+            return {
+                show: false,
+                suscribe() {
+                    setTimeout(function () {
+                        Livewire.on('mostrar:comprobante:matricula', () => {
+                            this.show = true;
+                        });
+                    }.bind(this));
+                }
+            }
+        }
+    </script>
+@endpush

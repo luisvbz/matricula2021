@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', \App\Http\Livewire\Frontend\Index::class)->name('principal');
+Route::get('/matricular', \App\Http\Livewire\Frontend\Matricular::class)->name('matricular');
 Route::get('/registrar-pago', \App\Http\Livewire\Frontend\RegistrarPago::class)->name('registrar.pago');
+Route::get('/estado-de-cuenta', \App\Http\Livewire\Frontend\EstadoCuenta::class)->name('estado.cuenta');
 Route::get('/consultar-matricula/{codigo?}', \App\Http\Livewire\Frontend\ConsultarMatricula::class)->name('consultar.matricula');
 
 

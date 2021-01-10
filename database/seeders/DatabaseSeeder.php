@@ -289,8 +289,8 @@ class DatabaseSeeder extends Seeder
            ],
             [
                 'orden' => 10,
-                'orden_letras' => 'NOVENA',
-                'mes' => '10',
+                'orden_letras' => 'DECIMA',
+                'mes' => '12',
                 'costo_id' => 3,
                 'costo' => 250.00,
                 'fecha_inicio' => '2021-12-01',

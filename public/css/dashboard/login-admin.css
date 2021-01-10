@@ -1,1 +1,43 @@
-.container-login-panel{background-image:url(/images/pattern.jpg);background-repeat:repeat;min-width:100vw;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center}.container-login-panel .container-form{min-width:450px;max-width:450px;background-color:#fff;padding:20px;border-radius:15px;box-shadow:-3px 4px 0 1px #918686}.container-login-panel .container-form-logo{text-align:center;font-size:1.5rem;font-weight:600;margin-bottom:10px;color:#848484}.container-login-panel .container-form-fields form label{font-weight:400;text-transform:uppercase;font-size:.8rem}.button-login,.input-login{border-radius:20px}.input-login{text-align:center}
+.container-login-panel {
+  background-image: url(/images/pattern.jpg);
+  background-repeat: repeat;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-login-panel .container-form {
+  min-width: 450px;
+  max-width: 450px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: -3px 4px 0px 1px #918686;
+}
+
+.container-login-panel .container-form-logo {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #848484;
+}
+
+.container-login-panel .container-form-fields form label {
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.button-login {
+  border-radius: 20px;
+}
+
+.input-login {
+  border-radius: 20px;
+  text-align: center;
+}
+
