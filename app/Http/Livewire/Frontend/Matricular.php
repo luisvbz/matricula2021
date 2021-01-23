@@ -714,7 +714,7 @@ class Matricular extends Component
                 if (Apoderado::where('numero_documento', $this->apoderado['numero_documento'])->exists()) {
                     $apoderado = Apoderado::where('numero_documento', $this->apoderado['numero_documento'])->first();
 
-                    Apoderado::find('id', $apoderado->id)
+                    Apoderado::find($apoderado->id)
                         ->update([
                             'parentesco' => $this->apoderado['parentesco'],
                             'tipo_documento' => $this->apoderado['tipo_documento'],

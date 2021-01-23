@@ -27,13 +27,13 @@
                 <div class="subtitulo">Matriculas</div>
             </div>
         </div>
-        <div class="item-section"  @click='goLink("{{ route('dashboard.configuracion') }}")'>
-            <div class="item-section-left"  @click='goLink("{{ route('dashboard.configuracion') }}")'>
+        <div class="item-section @if($route == 'contabilidad.reportes') item-section-active @endif"  @click='goLink("{{ route('contabilidad.reportes') }}")'>
+            <div class="item-section-left">
                 <img src="{{ asset('images/icons/reportes.svg') }}"/>
             </div>
-            <div class="item-section-right"  @click='goLink("{{ route('dashboard.configuracion') }}")'>
-                <div class="titulo"  @click='goLink("{{ route('dashboard.configuracion') }}")'>Reportes</div>
-                <div class="subtitulo"  @click='goLink("{{ route('dashboard.configuracion') }}")'>Contables</div>
+            <div class="item-section-right">
+                <div class="titulo">Reportes</div>
+                <div class="subtitulo">Contables</div>
             </div>
         </div>
     </div>

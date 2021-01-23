@@ -17,12 +17,13 @@ class ConsultarMatricula extends Component
         $this->validate(['codigo' => 'required'],['codigo.required' => 'Debe ingresar el código']);
 
         try {
-
-            $this->matricula = Matricula::where('codigo', $this->codigo)->first();
+            $dni = trim($this->codigo);
+            $COD = "IEPDS-{$dni}-2021";
+            $this->matricula = Matricula::where('codigo', $COD)->first();
 
             if(!$this->matricula)
             {
-                throw new \Exception("La matricula con el código <b>{$this->codigo}</b> no se ha encontrado, verifique el código e intente de nuevo");
+                throw new \Exception("La matricula con el DNI <b>{$dni}</b> no se ha encontrado, verifique el código e intente de nuevo");
             }
 
         }catch (\Exception $e){

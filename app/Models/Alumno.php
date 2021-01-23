@@ -13,6 +13,8 @@ class Alumno extends Model
 
     protected $guarded = [];
 
+    protected $appends = ['nombre_completo'];
+
     public function padres(){
         return $this->belongsToMany(Padre::class,'alumnos_padres');
     }
@@ -33,4 +35,10 @@ class Alumno extends Model
     public function distrito(){
         return $this->belongsTo( UbigeoDistrito::class, 'distrito_id');
     }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim("{$this->apellido_paterno} {$this->apellido_materno}, {$this->nombres}");
+    }
+
 }

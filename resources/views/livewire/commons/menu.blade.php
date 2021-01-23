@@ -7,6 +7,7 @@
             <li @click='goUrl("{{ route('dashboard.principal') }}")' class="item-menu  @if($route == 'dashboard.principal') item-active @endif"><i class="fas fa-home"></i> Inicio</li>
             <li @click='goUrl("{{ route('dashboard.matriculas') }}")' class="item-menu @if($route == 'dashboard.matriculas') item-active @endif"><i class="fas fa-graduation-cap"></i> Matriculas</li>
             <li @click='goUrl("{{ route('dashboard.contabilidad') }}")'  class="item-menu @if($route == 'dashboard.contabilidad') item-active @endif"><i class="fas fa-money-bill"></i> Contabilidad</li>
+            <li @click='goUrl("{{ route('dashboard.recordatorios') }}")'  class="item-menu @if($route == 'dashboard.recordatorios') item-active @endif"><i class="fas fa-alarm-clock"></i> Recordatorios</li>
             @if($isAdmin)
                 <li @click='goUrl("{{ route('dashboard.configuracion') }}")' class="item-menu  @if($route == 'dashboard.configuracion') item-active @endif"><i class="fas fa-cogs"></i> Configuración</li>
             @endif

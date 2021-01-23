@@ -20,7 +20,7 @@ class PagosPensiones extends Component
         'search' => ['except' => '']
     ];
 
-    protected $listeners = ['confirm:pago-pension' => 'confirmPagoPension', 'anular:pago-pension' => 'anularPagoPension'];
+    protected $listeners = ['confirm:pago-pension' => 'confirmPagoPension', 'eliminar:pago-pension' => 'eliminarPagoPension'];
 
     public function paginationView()
     {
@@ -61,17 +61,34 @@ class PagosPensiones extends Component
         ]);
     }
 
-    public function showDialogAnularPago($id, $codigo)
+    public function showDialogEliminarPago($id)
     {
         $this->emit("swal:confirm", [
             'type'        => 'warning',
             'title'       => 'Estas seguro(a)?',
-            'text'        => "Al anular el pago este no podrá cambiar de estado nuevamente",
-            'confirmText' => 'Sí, anular!',
-            'method'      => 'anular:pago-matricula',
+            'text'        => "Esta opción elimina este registro para que el padre pueda agregarlo nuevamente si hubo error",
+            'confirmText' => 'Sí, eliminar!',
+            'method'      => 'eliminar:pago-pension',
             'params'      => [$id], // optional, send params to success confirmation
             'callback'    => '', // optional, fire event if no confirmed
         ]);
+    }
+
+    public function eliminarPagoPension($params)
+    {
+        $pension =  Pension::find($params[0]);
+
+        if(Storage::delete("comprobantes/{$pension->comprobante}"))
+        {
+            $pension->delete();
+            $this->emit('swal:modal', [
+                'type'  => 'success',
+                'title' => 'Exito!!',
+                'text'  => "El pago se ha eliminado con éxito",
+            ]);
+
+            $this->render();
+        }
     }
 
     public function confirmPagoPension($params)

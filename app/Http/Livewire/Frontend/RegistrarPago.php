@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Frontend;
 
 use App\Mail\NuevaMatricula;
 use App\Mail\NuevoPago;
+use App\Mail\NuevoPagoPension;
 use App\Models\CronogramaPagos;
 use App\Models\Matricula;
 use App\Models\Pago;
@@ -81,11 +82,16 @@ class RegistrarPago extends Component
         $this->validate(['codigo' => 'required'], ['codigo.required' => 'Debe ingresar el código']);
 
         try {
-
-            $this->matricula = Matricula::where('codigo', $this->codigo)->first();
+            $dni = trim($this->codigo);
+            $COD = "IEPDS-{$dni}-2021";
+            $this->matricula = Matricula::where('codigo', $COD)->first();
 
             if (!$this->matricula) {
-                throw new \Exception("La matricula con el código <b>{$this->codigo}</b> no se ha encontrado, verifique el código e intente de nuevo");
+                throw new \Exception("La matricula con el DNI <b>{$dni}</b> no se ha encontrado, verifique e intente de nuevo");
+            }
+
+            if(Pago::where('codigo_matricula', $COD)->where('estado', '<>', 2)->exists()){
+                $this->concepto = 'P';
             }
 
             $this->step = 2;
@@ -167,6 +173,18 @@ class RegistrarPago extends Component
 
         try {
 
+            if(Pension::where('codigo_matricula', $this->matricula->codigo)->where('estado', 0)->exists())
+            {
+                $this->emit('swal:modal', [
+                    'icon' => 'warning',
+                    'title' => 'Adevertencia!!',
+                    'text' => 'Cuando su pago anterior esté verificado podrá registrar este',
+                    'timeout' => 3000
+                ]);
+
+                return;
+            }
+
             $comprobanteName = "{$this->matricula->codigo}-{$this->pagopension['mes']}-{$this->matricula->anio}.{$this->pagopension['comprobante']->getClientOriginalExtension()}";
             $this->pagopension['comprobante']->storeAs("comprobantes",$comprobanteName);
 
@@ -177,7 +195,7 @@ class RegistrarPago extends Component
 
             DB::beginTransaction();
 
-            Pension::create([
+           $pension =  Pension::create([
                 'estado' => 0,
                 'codigo_matricula' => $this->matricula->codigo,
                 'mes' =>  $this->pagopension['mes'],
@@ -194,6 +212,8 @@ class RegistrarPago extends Component
                 'text' => 'Su pago fue registrado con exito, pronto lo estaremos verificando!',
                 'timeout' => 3000
             ]);
+
+            Mail::to('divinosalvador20072@gmail.com')->send(new NuevoPagoPension($pension));
 
             $this->reset(['pago', 'pagopension', 'step', 'codigo']);
 

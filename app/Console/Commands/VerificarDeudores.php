@@ -6,8 +6,10 @@ use App\Mail\RecordatorioPago;
 use App\Models\CronogramaPagos;
 use App\Models\Matricula;
 use App\Models\Pension;
+use App\Models\Recordatorio;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use DB;
 
 class VerificarDeudores extends Command
 {
@@ -43,6 +45,7 @@ class VerificarDeudores extends Command
     public function handle()
     {
         $cronograma = CronogramaPagos::orderBy('orden', 'ASC')->get();
+
         $hoy = date('Y-m-d');
         $pagos = collect();
         $deudores = collect();
@@ -60,7 +63,7 @@ class VerificarDeudores extends Command
         //buscar las matriculas que no ha pagado
         foreach ($pagos as $matPago)
         {
-            $matriculas = Matricula::whereNotIn('codigo', $matPago->pagadas)->get();
+            $matriculas = Matricula::where('estado', 1)->whereNotIn('codigo', $matPago->pagadas)->get();
 
             foreach ($matriculas as $matricula)
             {
@@ -85,13 +88,59 @@ class VerificarDeudores extends Command
                 $alumno = $moroso->matricula->alumno;
                 $padre = $moroso->matricula->alumno->padres()->where('parentesco', 'P')->first();
                 $madre = $moroso->matricula->alumno->padres()->where('parentesco', 'M')->first();
+                $numero = Recordatorio::where('codigo_matricula', $moroso->matricula->codigo)->orderBy('numero', 'DESC')->first();
+                $numero = $numero ? $numero->numero + 1 : 1;
 
                 if($padre){
-                    Mail::to($padre->correo_electronico)->send(new RecordatorioPago($alumno, $padre, $moroso->meses));
+                    try{
+                        Mail::to($padre->correo_electronico)->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
+                        DB::beginTransaction();
+                        Recordatorio::create([
+                            'estado' => 1,
+                            'codigo_matricula' => $moroso->matricula->codigo,
+                            'numero' => $numero,
+                            'padre_id' => $padre->id,
+                            'meses' => count($moroso->meses),
+                            'destinatario' => $padre->correo_electronico
+                        ]);
+                        DB::commit();
+                    }catch (\Exception $e){
+                        DB::beginTransaction();
+                        Recordatorio::create([
+                            'estado' => 0,
+                            'codigo_matricula' => $moroso->matricula->codigo,
+                            'numero' => $numero,
+                            'meses' => count($moroso->meses),
+                            'destinatario' => $padre->correo_electronico
+                        ]);
+                        DB::commit();
+                    }
                 }
 
                 if($madre){
-                    Mail::to($madre->correo_electronico)->send(new RecordatorioPago($alumno, $madre, $moroso->meses));
+                    try{
+                        Mail::to($madre->correo_electronico)->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
+                        DB::beginTransaction();
+                        Recordatorio::create([
+                            'estado' => 1,
+                            'codigo_matricula' => $moroso->matricula->codigo,
+                            'numero' => $numero,
+                            'padre_id' => $madre->id,
+                            'meses' => count($moroso->meses),
+                            'destinatario' => $madre->correo_electronico
+                        ]);
+                        DB::commit();
+                    }catch (\Exception $e){
+                        DB::beginTransaction();
+                        Recordatorio::create([
+                            'estado' => 0,
+                            'codigo_matricula' => $moroso->matricula->codigo,
+                            'numero' => $numero,
+                            'meses' => count($moroso->meses),
+                            'destinatario' => $madre->correo_electronico
+                        ]);
+                        DB::commit();
+                    }
                 }
 
                 sleep(3);

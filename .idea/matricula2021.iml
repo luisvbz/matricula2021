@@ -6,18 +6,35 @@
       <sourceFolder url="file://$MODULE_DIR$/database/seeders" isTestSource="false" packagePrefix="Database\Seeders\" />
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" packagePrefix="Tests\" />
       <sourceFolder url="file://$MODULE_DIR$/app" isTestSource="false" packagePrefix="App\" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/amp" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/artax" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/byte-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/file" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/parallel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/parser" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/process" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/serialization" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/sync" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/uri" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/amphp/windows-registry" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/asm89/stack-cors" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bacon/bacon-qr-code" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/brick/math" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/carlos-meneses/laravel-mpdf" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/clue/block-react" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dasprid/enum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/daverandom/libdns" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dnoegel/php-xdg-base-dir" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/inflector" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/dragonmantank/cron-expression" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/egulias/email-validator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/evenement/evenement" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/facade/flare-client-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/facade/ignition" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/facade/ignition-contracts" />
@@ -31,6 +48,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/promises" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/kelunik/certificate" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/sail" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/tinker" />
@@ -71,6 +89,15 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ralouphie/getallheaders" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/collection" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ramsey/uuid" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/dns" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/event-loop" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/http-client" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/promise-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/socket" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/react/stream" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/ringcentral/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/cli-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
@@ -121,14 +148,17 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/thepinecode/blade-filters" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/unreal4u/dummy-logger" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/unreal4u/telegram-api" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/vlucas/phpdotenv" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/voku/portable-ascii" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yoshi2889/collections" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/yoshi2889/multipart-builder" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="guiacomercial" />
     <orderEntry type="module" module-name="escuelacooperativa" />
-    <orderEntry type="module" module-name="constata" />
+    <orderEntry type="module" module-name="fenasis-v2" />
   </component>
 </module>

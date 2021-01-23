@@ -20,6 +20,7 @@ class CreatePensionsTable extends Migration
             $table->string('mes', 2);
             $table->decimal('costo', 9,2);
             $table->string('comprobante');
+            $table->unsignedTinyInteger('has_boleta')->default(0);
             $table->date('fecha_pago');
             $table->timestamps();
         });

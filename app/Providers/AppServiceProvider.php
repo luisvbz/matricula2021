@@ -57,6 +57,30 @@ class AppServiceProvider extends ServiceProvider
             }
         });
 
+        BladeFilters::macro('gradoNumero', function ($value) {
+
+            switch ($value) {
+                case 1:
+                    return "1ero";
+                    break;
+                case 2:
+                    return "2do";
+                    break;
+                case 3:
+                    return "3ero";
+                    break;
+                case 4:
+                    return "4to";
+                    break;
+                case 5:
+                    return "5to";
+                    break;
+                case 6:
+                    return "6to";
+                    break;
+            }
+        });
+
         BladeFilters::macro('edoCivil', function ($value) {
 
             switch ($value) {

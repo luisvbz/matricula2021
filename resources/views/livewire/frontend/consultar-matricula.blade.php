@@ -29,7 +29,7 @@
                 <div class="field">
                     <div class="columns is-centered">
                         <div class="column is-4-desktop">
-                            <label class="label">CODIGO DE MATRÍCULA</label>
+                            <label class="label">DNI del alumno</label>
                             <div class="control">
                                 <input type="text" onkeyup="mayus(this);" id="cod-matricula" class="input  @error('codigo') is-danger @enderror" style="text-align: center;" wire:model.defer="codigo"/>
                                 @error('codigo')
@@ -38,8 +38,7 @@
                             </div>
                             <hr>
                             <div class="notification">
-                                El codigo de matrícula está en la esquina superior derecha de su ficha de matricula, se compone de la siguiente manera:<br>
-                                <b>IEPS-NUMERO_DNI_ESTUDIANTE-2021</b>(Ej: <b>IEPDS-01234567-2021</b>)
+                                Ingrese el DNI del alumno, sin separaciones ni guiones. Tampoco debe agregar el codigo verificador
                             </div>
                         </div>
                     </div>

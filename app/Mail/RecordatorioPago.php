@@ -16,12 +16,14 @@ class RecordatorioPago extends Mailable
      *
      * @return void
      */
+    public $numero;
     public $meses;
     public $padre;
     public $alumno;
 
-    public function __construct($alumno, $padre, $meses)
+    public function __construct($number, $alumno, $padre, $meses)
     {
+        $this->numero = $number;
         $this->alumno = $alumno;
         $this->padre = $padre;
         $this->meses = $meses;
@@ -34,6 +36,6 @@ class RecordatorioPago extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.recordatorio-pago')->subject('Recordatorio de Pago');
+        return $this->view('emails.recordatorio-pago')->subject('Recordatorio de Pago N° '.$this->numero);
     }
 }

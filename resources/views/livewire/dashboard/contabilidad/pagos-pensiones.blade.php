@@ -87,10 +87,12 @@
                                             <a wire:click="showDialogConfirm({{ $pago->id }}, '{{$pago->codigo_matricula}}')">
                                                 <i class="fas fa-check-double has-text-success"></i> Confirmar pago</a>
                                         </div>
-                                        <div class="items-option"  @click.away="open = false">
-                                            <a wire:click="showDialogAnularPago({{ $pago->id }},  '{{$pago->codigo_matricula}}')">
-                                                <i class="fas fa-ban has-text-danger"></i> Anular Pago</a>
-                                        </div>
+                                        @if(auth()->user()->hasRole('Admin'))
+                                            <div class="items-option"  @click.away="open = false">
+                                                <a wire:click="showDialogEliminarPago({{ $pago->id }})">
+                                                    <i class="fas fa-ban has-text-danger"></i> Eliminar Pago</a>
+                                            </div>
+                                        @endif
                                     @endif
                                 </div>
                             </div>

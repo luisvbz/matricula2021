@@ -12,6 +12,16 @@
             </div>
         </div>
     </div>
+    <div class="loading-matricula"  wire:loading wire:target="registrarPagoPension" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
+                <img src="{{ asset('images/loader.svg') }}"/>
+            </div>
+            <div class="mensaje">
+                Procesando.....
+            </div>
+        </div>
+    </div>
     <div class="form-container">
         <div class="step-formulario">
             <ul class="steps has-content-centered is-balanced">
@@ -56,7 +66,7 @@
                     <div class="field">
                         <div class="columns is-centered">
                             <div class="column is-4-desktop">
-                                <label class="label">CODIGO DE MATRÍCULA</label>
+                                <label class="label">DNI del alumno</label>
                                 <div class="control">
                                     <input type="text" onkeyup="mayus(this);" id="cod-matricula" class="input  @error('codigo') is-danger @enderror" style="text-align: center;" wire:model.defer="codigo"/>
                                     @error('codigo')
@@ -65,8 +75,7 @@
                                 </div>
                                 <hr>
                                 <div class="notification">
-                                    El codigo de matrícula está en la esquina superior derecha de su ficha de matricula, se compone de la siguiente manera:<br>
-                                    <b>IEPS-NUMERO_DNI_ESTUDIANTE-2021</b>(Ej: <b>IEPDS-01234567-2021</b>)
+                                    Ingrese el DNI del alumno, sin separaciones ni guiones. Tampoco debe agregar el codigo verificador
                                 </div>
                             </div>
                         </div>
@@ -252,7 +261,7 @@
                                 <a type="button" wire:click="$emit('goToStep', 1)" class="button is-primary"><i class="fas fa-arrow-alt-circle-left" style="margin-right: 5px;"></i> Anterior</a>
                             </div>
                             <div class="column has-text-right">
-                                <button class="button is-primary">Registrar pago <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
+                                <button wire:loading.remove class="button is-primary">Registrar pago <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
                             </div>
                         </div>
                     </div>
@@ -355,7 +364,7 @@
                                 <a type="button" wire:click="$emit('goToStep', 2)" class="button is-primary"><i class="fas fa-arrow-alt-circle-left" style="margin-right: 5px;"></i> Anterior</a>
                             </div>
                             <div class="column has-text-right">
-                                <button class="button is-primary">Registrar pago <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
+                                <button class="button is-primary"  wire:loading.remove>Registrar pago <i class="fas fa-arrow-alt-circle-right" style="margin-left: 5px;"></i></button>
                             </div>
                         </div>
                     </div>
