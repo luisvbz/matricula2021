@@ -49,16 +49,16 @@ class TelegramController extends Controller
 
             if($matricula)
             {
-                $pagoMarzo = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '03')->first();
-                $pagoAbril = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '04')->first();
-                $pagoMayo = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '05')->first();
-                $pagoJunio = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '06')->first();
-                $pagoJulio = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '07')->first();
-                $pagoAgosto = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '08')->first();
-                $pagoSeptiembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '09')->first();
-                $pagoOctubre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '10')->first();
-                $pagoNoviembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '11')->first();
-                $pagoDiciembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado', '<>', 2)->where('mes', '12')->first();
+                $pagoMarzo = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '03')->first();
+                $pagoAbril = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '04')->first();
+                $pagoMayo = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '05')->first();
+                $pagoJunio = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '06')->first();
+                $pagoJulio = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '07')->first();
+                $pagoAgosto = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '08')->first();
+                $pagoSeptiembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '09')->first();
+                $pagoOctubre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '10')->first();
+                $pagoNoviembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '11')->first();
+                $pagoDiciembre = Pension::where('codigo_matricula', $matricula->codigo)->where('estado',1)->where('mes', '12')->first();
 
                 $pensionMarzo = $pagoMarzo ? "✅ Pension de Marzo - <b>Pagada</b>" : "⏳ Pensión de Marzo - <b>Pendiente</b>";
                 $pensionAbril = $pagoAbril ? "✅ Pension de Abril - <b>Pagada</b>" : "⏳ Pensión de Abril - <b>Pendiente</b>";

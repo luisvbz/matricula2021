@@ -11,6 +11,16 @@
             </div>
         </div>
     </div>
+    <div class="loading-matricula"  wire:loading wire:target="exportar" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
+                <img src="{{ asset('images/loader.svg') }}"/>
+            </div>
+            <div class="mensaje">
+                Cargando.....
+            </div>
+        </div>
+    </div>
     <div class="content-dashboard-header">
         <div><i class="fas fa-money-bill"></i> Pagos recibidos por matricula</div>
     </div>
@@ -37,6 +47,7 @@
             <div class="column has-text-centered">
                 <button wire:click="buscar" class="button is-success"><i class="fas fa-search"></i></button>
                 <button wire:click="limpiar" class="button is-danger"><i class="fas fa-eraser"></i></button>
+                <button wire:click="exportar" class="button"><i class="fas fa-file-pdf"></i></button>
             </div>
         </div>
     </div>

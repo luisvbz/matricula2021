@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Dashboard\Pagos;
 
+use App\Models\Historial;
+use PDF;
 use App\Models\Matricula;
 use App\Models\Pago;
 use Illuminate\Support\Facades\Storage;
@@ -35,6 +37,18 @@ class Index extends Component
     {
         $this->reset(['search', 'estado']);
         $this->render();
+    }
+
+    public function exportar()
+    {
+        $pagos = Pago::where('estado', '<>', 2)->orderByRaw('DATE(fecha_deposito) DESC')->get();
+        //dd($pagos);
+        $fecha = date('d-m-Y');
+        $pdf = PDF::loadView('pdfs.reporte-pagos-matriculas',['pagos' => $pagos], [],  ['format' => 'A4', 'orientation' => 'L']);
+        Historial::create(['user_id' => auth()->user()->id, 'accion' => 'Generar reporte de pagos de matriculas']);
+        return response()->streamDownload(function () use($pdf){
+            echo $pdf->stream();
+        }, "reporte-resumen-de-pagos-matriculas-{$fecha}.pdf");
     }
 
     public function verComprobante($comprobante)
@@ -133,6 +147,9 @@ class Index extends Component
     {
         $pagos = Pago::when($this->estado != '', function ($q){
             $q->where('estado', $this->estado);
+        })
+        ->when(auth()->user()->id == 4, function ($q) {
+            $q->where('codigo_matricula', '<>', 'IEPDS-61140703-2021');
         })
         ->when($this->search != '', function ($q){
             $q->where('codigo_matricula', 'like', "%{$this->search}%");

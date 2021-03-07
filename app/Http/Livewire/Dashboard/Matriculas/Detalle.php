@@ -17,6 +17,11 @@ class Detalle extends Component
         {
             abort(404);
         }
+
+        if(auth()->user()->id == 4 && $codigo == 'IEPDS-61140703-2021')
+        {
+            abort(404);
+        }
     }
 
     public function render()

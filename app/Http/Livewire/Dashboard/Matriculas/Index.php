@@ -166,6 +166,9 @@ class Index extends Component
                     ->when($this->estado != '', function ($q){
                         $q->where('matriculas.estado', $this->estado);
                     })
+                    ->when(auth()->user()->id == 4, function ($q) {
+                        $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+                    })
                     ->paginate(30);
 
         return view('livewire.dashboard.matriculas.index', ['matriculas' => $matriculas,

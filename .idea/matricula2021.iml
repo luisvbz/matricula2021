@@ -160,5 +160,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="escuelacooperativa" />
     <orderEntry type="module" module-name="fenasis-v2" />
+    <orderEntry type="module" module-name="fenasis" />
   </component>
 </module>

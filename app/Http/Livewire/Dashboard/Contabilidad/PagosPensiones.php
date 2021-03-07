@@ -150,6 +150,9 @@ class PagosPensiones extends Component
             ->when($this->search != '', function ($q){
                 $q->where('codigo_matricula', 'like', "%{$this->search}%");
             })
+            ->when(auth()->user()->id == 4, function ($q) {
+                $q->where('codigo_matricula', '<>', 'IEPDS-61140703-2021');
+            })
             ->orderBy('id', 'DESC')
             ->paginate(30);
 

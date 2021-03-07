@@ -34,6 +34,9 @@ class Reportes extends Component
         foreach ($pagos as $matPago)
         {
             $matriculas = Matricula::whereNotIn('codigo', $matPago->pagadas)
+                                    ->when(auth()->user()->id == 4, function ($q) {
+                                        $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+                                    })
                                     ->where('estado',1)
                                     ->orderBy('nivel', 'ASC')
                                     ->orderBy('grado', 'ASC')
@@ -153,6 +156,9 @@ class Reportes extends Component
                 ->join('alumnos', 'alumnos.id', '=', 'matriculas.alumno_id')
                 ->where('matriculas.nivel', 'S')
                 ->where('matriculas.grado', $i)
+                ->when(auth()->user()->id == 4, function ($q) {
+                    $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+                })
                 ->orderBy('alumnos.apellido_paterno', 'ASC')
                 ->orderBy('alumnos.apellido_materno', 'ASC')
                 ->orderBy('alumnos.nombres', 'ASC')
