@@ -93,7 +93,6 @@ class VerificarDeudores extends Command
 
                 if($padre){
                     try{
-                        Mail::to($padre->correo_electronico)->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
                         DB::beginTransaction();
                         Recordatorio::create([
                             'estado' => 1,
@@ -104,12 +103,14 @@ class VerificarDeudores extends Command
                             'destinatario' => $padre->correo_electronico
                         ]);
                         DB::commit();
+                        Mail::to($padre->correo_electronico)->cc('divinosalvador20072@gmail.com')->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
                     }catch (\Exception $e){
                         DB::beginTransaction();
                         Recordatorio::create([
                             'estado' => 0,
                             'codigo_matricula' => $moroso->matricula->codigo,
                             'numero' => $numero,
+                            'padre_id' => $padre->id,
                             'meses' => count($moroso->meses),
                             'destinatario' => $padre->correo_electronico
                         ]);
@@ -119,7 +120,6 @@ class VerificarDeudores extends Command
 
                 if($madre){
                     try{
-                        Mail::to($madre->correo_electronico)->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
                         DB::beginTransaction();
                         Recordatorio::create([
                             'estado' => 1,
@@ -130,20 +130,20 @@ class VerificarDeudores extends Command
                             'destinatario' => $madre->correo_electronico
                         ]);
                         DB::commit();
+                        Mail::to($madre->correo_electronico)->cc('divinosalvador20072@gmail.com')->send(new RecordatorioPago($numero, $alumno, $padre, $moroso->meses));
                     }catch (\Exception $e){
                         DB::beginTransaction();
                         Recordatorio::create([
                             'estado' => 0,
                             'codigo_matricula' => $moroso->matricula->codigo,
                             'numero' => $numero,
+                            'padre_id' => $padre->id,
                             'meses' => count($moroso->meses),
                             'destinatario' => $madre->correo_electronico
                         ]);
                         DB::commit();
                     }
                 }
-
-                sleep(3);
             }
         }
     }

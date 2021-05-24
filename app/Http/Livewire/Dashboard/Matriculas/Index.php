@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Dashboard\Matriculas;
 
 use App\Models\Historial;
 use App\Models\Matricula;
+use App\Models\Padre;
 use Livewire\Component;
 use Livewire\WithPagination;
 use PDF;
@@ -33,13 +34,13 @@ class Index extends Component
 
     public function buscar()
     {
-        $this->render();
+        $this->resetPage();
     }
 
     public function limpiar()
     {
         $this->reset(['search', 'grado', 'nivel', 'estado']);
-        $this->render();
+        $this->resetPage();
     }
 
     public function showDialogConfirmMatricula($id)
@@ -134,14 +135,196 @@ class Index extends Component
         }, "FICHA-{$matricula->codigo}.pdf");
     }
 
+    public function exportarPdf()
+    {
+        //primaria
+        $relacion = collect();
+
+        for($i = 1; $i <= 6; $i++)
+        {
+            $grado =  Matricula::join('alumnos', 'alumnos.id', '=', 'matriculas.alumno_id')
+                ->selectRaw('matriculas.*')
+                ->where('matriculas.nivel', 'P')
+                ->where('matriculas.grado', $i)
+                ->orderBy('alumnos.apellido_paterno', 'ASC')
+                ->orderBy('alumnos.apellido_materno', 'ASC')
+                ->orderBy('alumnos.nombres', 'ASC')
+                ->get();
+
+            $itemGrade = new \stdClass();
+            $itemGrade->nivel = 'PRIMARIA';
+            $itemGrade->grado = $i;
+            $itemGrade->alumnos = collect();
+
+            if(count($grado) > 0){
+
+                foreach ($grado as $matricula)
+                {
+                    $item = new \stdClass();
+                    $item->alumno = $matricula->alumno->nombre_completo;
+                    $item->estado = $matricula->estado;
+                    $itemGrade->alumnos->push($item);
+
+                }
+            }
+
+            if(count($itemGrade->alumnos) > 0) $relacion->push($itemGrade);
+        }
+
+        //secundaria
+
+        for($i = 1; $i <= 5; $i++)
+        {
+            $grado =  Matricula::join('alumnos', 'alumnos.id', '=', 'matriculas.alumno_id')
+                ->selectRaw('matriculas.*')
+                ->where('matriculas.nivel', 'S')
+                ->where('matriculas.grado', $i)
+                ->when(auth()->user()->id == 4, function ($q) {
+                    $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+                })
+                ->orderBy('alumnos.apellido_paterno', 'ASC')
+                ->orderBy('alumnos.apellido_materno', 'ASC')
+                ->orderBy('alumnos.nombres', 'ASC')
+                ->get();
+
+            $itemGrade = new \stdClass();
+            $itemGrade->nivel = 'SECUNDARIA';
+            $itemGrade->grado = $i;
+            $itemGrade->alumnos = collect();
+
+            if(count($grado) > 0){
+
+                foreach ($grado as $matricula)
+                {
+                    $item = new \stdClass();
+                    $item->alumno = $matricula->alumno->nombre_completo;
+                    $item->estado = $matricula->estado;
+                    $itemGrade->alumnos->push($item);
+                }
+            }
+
+            if(count($itemGrade->alumnos) > 0) $relacion->push($itemGrade);
+        }
+
+        $pdf = PDF::loadView('pdfs.reporte-matriculas', ['matriculas' => $relacion]);
+        $fecha = date('d-m-Y');
+        return response()->streamDownload(function () use($pdf){
+            echo $pdf->stream();
+        }, "reporte-matricula-{$fecha}.pdf");
+    }
+
+    public function exportarCorreos()
+    {
+        $matriculas = Matricula::whereEstado(1)->get();
+        $correos = "";
+        foreach ($matriculas as $mat)
+        {
+            if($mat !== end($matriculas))
+            {
+                foreach ($mat->alumno->padres as $p)
+                {
+                    $correos.= strtolower($p->correo_electronico).",";
+                }
+            }else {
+                foreach ($mat->alumno->padres as $p)
+                {
+                    $correos.= strtolower($p->correo_electronico);
+                }
+            }
+
+        }
+
+        return response()->streamDownload(function () use($correos){
+            echo $correos;
+        }, "reporte-correos.txt");
+    }
+
+    public function exportarDNI()
+    {
+        $relacion = collect();
+
+        for($i = 1; $i <= 6; $i++)
+        {
+            $grado =  Matricula::join('alumnos', 'alumnos.id', '=', 'matriculas.alumno_id')
+                ->selectRaw('matriculas.*')
+                ->where('matriculas.nivel', 'P')
+                ->where('matriculas.grado', $i)
+                ->orderBy('alumnos.apellido_paterno', 'ASC')
+                ->orderBy('alumnos.apellido_materno', 'ASC')
+                ->orderBy('alumnos.nombres', 'ASC')
+                ->get();
+
+            $itemGrade = new \stdClass();
+            $itemGrade->nivel = 'PRIMARIA';
+            $itemGrade->grado = $i;
+            $itemGrade->alumnos = collect();
+
+            if(count($grado) > 0){
+
+                foreach ($grado as $matricula)
+                {
+                    $item = new \stdClass();
+                    $item->alumno = $matricula->alumno->nombre_completo;
+                    $item->dni_alumno = $matricula->alumno->numero_documento;
+                    $item->dni_mama = ($matricula->alumno->padres()->where('parentesco', 'M')->first())->numero_documento ?? '';
+                    $item->dni_papa = ($matricula->alumno->padres()->where('parentesco', 'P')->first())->numero_documento ?? '';
+                    $itemGrade->alumnos->push($item);
+
+                }
+            }
+
+            if(count($itemGrade->alumnos) > 0) $relacion->push($itemGrade);
+        }
+
+        //secundaria
+
+        for($i = 1; $i <= 5; $i++)
+        {
+            $grado =  Matricula::join('alumnos', 'alumnos.id', '=', 'matriculas.alumno_id')
+                ->selectRaw('matriculas.*')
+                ->where('matriculas.nivel', 'S')
+                ->where('matriculas.grado', $i)
+                ->when(auth()->user()->id == 4, function ($q) {
+                    $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+                })
+                ->orderBy('alumnos.apellido_paterno', 'ASC')
+                ->orderBy('alumnos.apellido_materno', 'ASC')
+                ->orderBy('alumnos.nombres', 'ASC')
+                ->get();
+
+            $itemGrade = new \stdClass();
+            $itemGrade->nivel = 'SECUNDARIA';
+            $itemGrade->grado = $i;
+            $itemGrade->alumnos = collect();
+
+            if(count($grado) > 0){
+
+                foreach ($grado as $matricula)
+                {
+                    $item = new \stdClass();
+                    $item->alumno = $matricula->alumno->nombre_completo;
+                    $item->dni_alumno = $matricula->alumno->numero_documento;
+                    $item->dni_mama = ($matricula->alumno->padres()->where('parentesco', 'M')->first())->numero_documento ?? '';
+                    $item->dni_papa = ($matricula->alumno->padres()->where('parentesco', 'P')->first())->numero_documento ?? '';
+                    $itemGrade->alumnos->push($item);
+                }
+            }
+
+            if(count($itemGrade->alumnos) > 0) $relacion->push($itemGrade);
+        }
+
+        $pdf = PDF::loadView('pdfs.reporte-dni', ['matriculas' => $relacion]);
+        $fecha = date('d-m-Y');
+        return response()->streamDownload(function () use($pdf){
+            echo $pdf->stream();
+        }, "lista-de-alumnos-dni-{$fecha}.pdf");
+    }
+
+
     public function render()
     {
 
         $year = 2021;
-        $totalRegistros = Matricula::where('anio', $year)->count();
-        $totalPendientes = Matricula::where('anio', $year)->whereEstado(0)->count();
-        $totalConfirmadas = Matricula::where('anio', $year)->whereEstado(1)->count();
-        $totalAnuladas = Matricula::where('anio', $year)->whereEstado(2)->count();
 
         $matriculas = Matricula::orderBy('id', 'DESC')
                     ->selectRaw('matriculas.*')
@@ -170,6 +353,63 @@ class Index extends Component
                         $q->where('codigo', '<>', 'IEPDS-61140703-2021');
                     })
                     ->paginate(30);
+
+        $totalRegistros = Matricula::where('anio', $year)
+            ->when($this->nivel != '', function ($q){
+            $q->where('matriculas.nivel', $this->nivel);
+            })
+            ->when($this->grado != '', function ($q){
+                $q->where('matriculas.grado', $this->grado);
+            })
+            ->when($this->estado != '', function ($q){
+                $q->where('matriculas.estado', $this->estado);
+            })
+            ->when(auth()->user()->id == 4, function ($q) {
+                $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+            })
+            ->count();
+        $totalPendientes = Matricula::where('anio', $year)->whereEstado(0)
+            ->when($this->nivel != '', function ($q){
+                $q->where('matriculas.nivel', $this->nivel);
+            })
+            ->when($this->grado != '', function ($q){
+                $q->where('matriculas.grado', $this->grado);
+            })
+            ->when($this->estado != '', function ($q){
+                $q->where('matriculas.estado', $this->estado);
+            })
+            ->when(auth()->user()->id == 4, function ($q) {
+                $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+            })
+            ->count();
+        $totalConfirmadas = Matricula::where('anio', $year)->whereEstado(1)
+            ->when($this->nivel != '', function ($q){
+                $q->where('matriculas.nivel', $this->nivel);
+            })
+            ->when($this->grado != '', function ($q){
+                $q->where('matriculas.grado', $this->grado);
+            })
+            ->when($this->estado != '', function ($q){
+                $q->where('matriculas.estado', $this->estado);
+            })
+            ->when(auth()->user()->id == 4, function ($q) {
+                $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+            })
+            ->count();
+        $totalAnuladas = Matricula::where('anio', $year)->whereEstado(2)
+            ->when($this->nivel != '', function ($q){
+                $q->where('matriculas.nivel', $this->nivel);
+            })
+            ->when($this->grado != '', function ($q){
+                $q->where('matriculas.grado', $this->grado);
+            })
+            ->when($this->estado != '', function ($q){
+                $q->where('matriculas.estado', $this->estado);
+            })
+            ->when(auth()->user()->id == 4, function ($q) {
+                $q->where('codigo', '<>', 'IEPDS-61140703-2021');
+            })
+            ->count();
 
         return view('livewire.dashboard.matriculas.index', ['matriculas' => $matriculas,
                                                             'total' => $totalRegistros,

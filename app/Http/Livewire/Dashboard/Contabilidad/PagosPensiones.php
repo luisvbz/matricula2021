@@ -7,9 +7,12 @@ use App\Models\Pago;
 use App\Models\Pension;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PagosPensiones extends Component
 {
+    use WithPagination;
+
     public $search = '';
     public $estado = '';
     public $showComprobante = false;

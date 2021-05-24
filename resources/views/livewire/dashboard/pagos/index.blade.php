@@ -28,7 +28,9 @@
         <div class="columns">
             <div class="column is-8">
                 <div class="control has-icons-left">
-                    <input type="text" class="input" wire:model.defer="search" placeholder="Buscar por codigo de matricula"/>
+                    <input type="text" class="input"
+                           wire:keydown.enter="buscar"
+                           wire:model.defer="search" placeholder="Buscar por codigo de matricula"/>
                     <span class="icon is-small is-left">
                             <i class="fas fa-search"></i>
                         </span>

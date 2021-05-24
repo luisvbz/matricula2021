@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Dashboard\Pagos;
 
 use App\Models\Historial;
+use Livewire\WithPagination;
 use PDF;
 use App\Models\Matricula;
 use App\Models\Pago;
@@ -11,6 +12,7 @@ use Livewire\Component;
 
 class Index extends Component
 {
+    use  WithPagination;
     public $search = '';
     public $estado = '';
     public $showComprobante = false;
@@ -30,13 +32,13 @@ class Index extends Component
 
     public function buscar()
     {
-        $this->render();
+        $this->resetPage();
     }
 
     public function limpiar()
     {
         $this->reset(['search', 'estado']);
-        $this->render();
+        $this->resetPage();
     }
 
     public function exportar()
@@ -67,7 +69,7 @@ class Index extends Component
         $this->emit("swal:confirm", [
             'type'        => 'warning',
             'title'       => 'Estas seguro(a)?',
-            'text'        => "Esta acción macarcara la matricula como confirmada",
+            'text'        => "Esta acción marcará la matricula como confirmada",
             'confirmText' => 'Sí Confirmar!',
             'method'      => 'confirm:pago-matricula',
             'params'      => [$id, $codigo], // optional, send params to success confirmation

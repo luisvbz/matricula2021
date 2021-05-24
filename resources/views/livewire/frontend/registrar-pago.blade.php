@@ -212,7 +212,7 @@
                             <div class="column is-2-desktop">
                                 <label class="label">Fecha de Pago</label>
                                 <div class="control">
-                                    <input type="text" wire:model.lazy="pago.fecha" class="input  @error('pago.fecha') is-danger @enderror" id="fecha-pago"/>
+                                    <input type="text" wire:model.lazy="pago.fecha" autocomplete="off" class="input  @error('pago.fecha') is-danger @enderror" id="fecha-pago"/>
                                 </div>
                                 @error('pago.fecha')
                                     <p class="has-text-danger">{{ $message }}</p>
@@ -324,7 +324,7 @@
                             <div class="column is-2-desktop">
                                 <label class="label">Fecha de Pago</label>
                                 <div class="control">
-                                    <input type="text" wire:model.lazy="pagopension.fecha_pago" class="input  @error('pagopension.fecha_pago') is-danger @enderror" id="fecha-pago-pension"/>
+                                    <input type="text" wire:model.lazy="pagopension.fecha_pago" autocomplete="off" class="input  @error('pagopension.fecha_pago') is-danger @enderror" id="fecha-pago-pension"/>
                                 </div>
                                 @error('pagopension.fecha_pago')
                                 <p class="has-text-danger">{{ $message }}</p>

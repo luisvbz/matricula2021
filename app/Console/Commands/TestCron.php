@@ -38,6 +38,6 @@ class TestCron extends Command
      */
     public function handle()
     {
-        Mail::to('ing.luisvasquez89@gmail.com')->send(new \App\Mail\TestCron());
+        Mail::to('ing.luisvasquez89@gmail.com')->cc('divinosalvador20072@gmail.com')->send(new \App\Mail\TestCron());
     }
 }

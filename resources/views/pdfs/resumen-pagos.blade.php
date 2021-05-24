@@ -9,11 +9,11 @@
                 padding: 15px;
             }
             .tg  {border-collapse:collapse;border-spacing:0; width: 100%;}
-            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
-                overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:10px;
+                overflow:hidden;padding:5px 2px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:12px;
                 font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-            .tg .tg-3x8j{background-color:#c0c0c0;border-color:#000000;font-size:16px;font-weight:bold;text-align:center;vertical-align:top}
+            .tg .tg-3x8j{background-color:#c0c0c0;border-color:#000000;font-size:14px;font-weight:bold;text-align:center;vertical-align:top}
             .tg .tg-fm1b{background-color:#efefef;border-color:#000000;font-weight:bold;text-align:center;vertical-align:top}
             .tg .tg-wp8o{border-color:#000000;text-align:center;vertical-align:top}
             .tg .tg-wkkj{background-color:#efefef;border-color:#000000;font-weight:bold;text-align:left;vertical-align:top}
@@ -73,7 +73,9 @@
                 </table>
             </div>
             @php $i++; @endphp
-            <pagebreak/>
+            @if(!$loop->last)
+                <pagebreak/>
+            @endif
         @endforeach
         <htmlpagefooter name="page-footer">
             Reporte generado el  <b>{{ date('d/m/Y') }}</b> por <b>{{ auth()->user()->name }}</b>

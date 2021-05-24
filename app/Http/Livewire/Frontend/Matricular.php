@@ -356,6 +356,37 @@ class Matricular extends Component
             return;
         }
 
+        //verificar vacantes
+        /*
+        if($this->estudiante['nivel'] == 'P') {
+
+                if(Matricula::where('estado', '<>', 2)->where('grado', $this->estudiante['grado'])->count() >= 26) {
+                    $this->emit('swal:modal', [
+                        'icon' => 'error',
+                        'title' => 'Error!!',
+                        'text' => 'No hay vacantes disponibles para para el grado seleccionado!',
+                        'timeout' => 3000
+                    ]);
+
+                    return;
+                }
+
+        }else if ($this->estudiante['nivel'] == 'S')
+        {
+            $limites = ['1' => 25, '2' => 25, '3' => 25, '4' => 25, '5' => 30];
+
+            if(Matricula::where('estado', '<>', 2)->where('grado', $this->estudiante['grado'])->count() >= $limites[$this->estudiante['grado']]) {
+                $this->emit('swal:modal', [
+                    'icon' => 'error',
+                    'title' => 'Error!!',
+                    'text' => 'No hay vacantes disponibles para para el grado seleccionado!',
+                    'timeout' => 3000
+                ]);
+
+                return;
+            }
+        }*/
+
 
         if (!session()->has('estudiante')) {
             session(['estudiante' => $this->estudiante, 'nees' => $this->nees, 'paso' => 2]);

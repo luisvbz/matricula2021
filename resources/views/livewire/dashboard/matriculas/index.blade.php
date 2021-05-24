@@ -1,4 +1,34 @@
 <div class="content-dashboard">
+    <div class="loading-matricula"  wire:loading wire:targe="exportarPdf" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
+                <img src="{{ asset('images/loader.svg') }}"/>
+            </div>
+            <div class="mensaje">
+                Procesando.....
+            </div>
+        </div>
+    </div>
+    <div class="loading-matricula"  wire:loading wire:targe="exportarCorreos" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
+                <img src="{{ asset('images/loader.svg') }}"/>
+            </div>
+            <div class="mensaje">
+                Procesando.....
+            </div>
+        </div>
+    </div>
+    <div class="loading-matricula"  wire:loading wire:targe="exportarDNI" style="display: none;">
+        <div class="loading-matricula-body" style="margin: 100px auto;">
+            <div class="spinner" style="text-align: center;">
+                <img src="{{ asset('images/loader.svg') }}"/>
+            </div>
+            <div class="mensaje">
+                Procesando.....
+            </div>
+        </div>
+    </div>
     <div class="content-dashboard-header">
         <div><i class="fas fa-graduation-cap"></i> Matrículas</div>
     </div>
@@ -6,7 +36,9 @@
         <div class="columns">
             <div class="column is-4">
                 <div class="control has-icons-left">
-                    <input type="text" class="input" wire:model.defer="search" placeholder="Buscar por nombre o DNI del estudiante"/>
+                    <input type="text" class="input"
+                           wire:keydown.enter="buscar"
+                           wire:model.defer="search" placeholder="Buscar por nombre o DNI del estudiante"/>
                     <span class="icon is-small is-left">
                             <i class="fas fa-search"></i>
                         </span>
@@ -58,10 +90,18 @@
             <div class="column has-text-centered"><i class="fas fa-circle has-text-grey-light"></i> <strong>{{ $total }}</strong> TOTAL</div>
         </div>
     </div>
+    <div class="columns">
+        <div class="column has-text-right">
+            <button wire:click="exportarPdf" class="button">Reporte de Matriculas<i class="fas fa-file-pdf ml-2"></i></button>
+            <button wire:click="exportarCorreos" class="button">Lista de correos <i class="fas fa-mailbox ml-2"></i></button>
+            <button wire:click="exportarDNI" class="button">Reporte de DNI <i class="fas fa-address-card ml-2"></i></button>
+        </div>
+    </div>
     <div class="content-dashboard-content box-content">
         <table class="table">
             <thead>
                 <tr>
+                    <th class="has-text-centered">#</th>
                     <th class="has-text-centered">Estado</th>
                     <th>COD</th>
                     <th>DNI/CE/PTP</th>
@@ -73,8 +113,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php $i = 1; @endphp
                 @forelse($matriculas as $matricula)
                     <tr>
+                        <td class="has-text-centered">{{ $i }}</td>
                         <td class="has-text-centered">{!! $matricula->status !!}</td>
                         <td>{{ $matricula->codigo }}</td>
                         <td>{{ $matricula->alumno->numero_documento }}</td>
@@ -104,6 +146,7 @@
                             </div>
                         </td>
                     </tr>
+                    @php $i++; @endphp
                 @empty
                     <tr>
                         <td colspan="7" class="has-text-centered">No hay resultados que mostrar</td>

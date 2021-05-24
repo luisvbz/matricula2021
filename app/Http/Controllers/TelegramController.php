@@ -64,7 +64,7 @@ class TelegramController extends Controller
                 $pensionAbril = $pagoAbril ? "✅ Pension de Abril - <b>Pagada</b>" : "⏳ Pensión de Abril - <b>Pendiente</b>";
                 $pensionMayo = $pagoMayo ? "✅ Pension de Mayo - <b>Pagada</b>" : "⏳ Pensión de Mayo - <b>Pendiente</b>";
                 $pensionJunio = $pagoJunio ? "✅ Pension de Junio - <b>Pagada</b>" : "⏳ Pensión de Junio - <b>Pendiente</b>";
-                $pensionJulio = $pagoJunio ? "✅ Pension de Julio - <b>Pagada</b>" : "⏳ Pensión de Julio - <b>Pendiente</b>";
+                $pensionJulio = $pagoJulio ? "✅ Pension de Julio - <b>Pagada</b>" : "⏳ Pensión de Julio - <b>Pendiente</b>";
                 $pensionAgosto = $pagoAgosto ? "✅ Pension de Agosto - <b>Pagada</b>" : "⏳ Pensión de Agosto - <b>Pendiente</b>";
                 $pensionSetiembre = $pagoSeptiembre ? "✅ Pension de Setiembre - <b>Pagada</b>" : "⏳ Pensión de Setiembre - <b>Pendiente</b> ";
                 $pensionOctubre = $pagoOctubre ? "✅ Pension de Octubre - <b>Pagada</b>" : "⏳ Pensión de Octubre - <b>Pendiente</b>";
